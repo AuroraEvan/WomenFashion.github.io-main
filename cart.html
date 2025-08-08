@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+  <header><h1>WOMEN FASHION</h1></header>
+  <nav>
+    <ul>
+    <li><a href="home.html">Home</a></li>
+      <li><a href="product.html">Product</a></li>
+      <li><a href="cart.html"> Cart <span class="cart-icon">🛍️</span></a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav> 
+</main>
+      <h2>Your Shopping Cart 🛒</h2>
+      <div id="cart-container"></div>
+<button id="clear-cart">🗑️ Delete in your cart </button>
+ <footer>
+      <p>📞 Phone number: 0123 456 789 | ✉️ Email: thoitrangnu@example.com</p>
+      <p>© 2025 WOMEN FASHION</p>
+    </footer>
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const container = document.getElementById("cart-container");
+      container.innerHTML = "";
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p>Your shopping cart is empty.</p>";
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <button class="remove-btn" onclick="removeItem('${item.id}')">×</button>
+          <img src="${item.img}" alt="${item.name}" />
+          <div>
+            <h3>${item.name}</h3>
+            <p>Giá: ${item.price} đ</p>
+            <div class="qty-controls">
+              <button onclick="changeQty('${item.id}', -1)">−</button>
+              <span>${item.qty}</span>
+              <button onclick="changeQty('${item.id}', 1)">+</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function removeItem(id) {
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      cart = cart.filter(item => item.id !== id);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
+
+    function changeQty(id, delta) {
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      cart = cart.map(item => {
+        if (item.id === id) {
+          item.qty += delta;
+          if (item.qty < 1) item.qty = 1;
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      loadCart();
+    }
+
+    document.getElementById("clear-cart").addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete the entire cart?")) {
+        clearCart();
+      }
+    });
+
+    loadCart(); // Load khi vào trang
+  </script>
+  </div>
+</body>
+</html>

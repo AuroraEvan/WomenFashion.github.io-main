@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact & Feedback | WOMEN FASHION</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>WOMEN FASHION</h1>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="cart.html">Cart <span class="cart-icon">🛍️</span></a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+    <main>
+      <section class="contact-section">
+        <h2>Contact for Consultation</h2>
+        <form id="contact-form">
+          <input type="text" id="contact-name" placeholder="Your Name *" required />
+          <input type="email" id="contact-email" placeholder="Email *" required />
+          <input type="tel" id="contact-phone" placeholder="Phone Number (optional)" />
+          <textarea id="contact-message" placeholder="Message *" rows="3" required></textarea>
+          <button type="submit">Send Contact</button>
+          <div id="contact-status"></div>
+        </form>
+      </section>
+      <section class="feedback-section">
+        <h2>Feedback Your Experience</h2>
+        <form id="feedback-form">
+          <div class="star-rating" id="star-rating">
+            <!-- JS will render stars here -->
+          </div>
+
+          <input type="text" id="name" placeholder="Your Name *" required />
+
+          <input type="hidden" id="rating" required />
+          <textarea id="comment" placeholder="Your Experience *" required></textarea>
+          <button type="submit">Send Feedback</button>
+        </form>
+        <div id="feedback-list">
+          <!-- Feedbacks will appear here -->
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>📞 Phone: 0123 456 789 | ✉️ Email: thoitrangnu@example.com</p>
+      <p>© 2025 WOMEN FASHION</p>
+    </footer>
+  </div>
+  <script>
+    // STAR RATING LOGIC
+    const starContainer = document.getElementById('star-rating');
+    const ratingInput = document.getElementById('rating');
+    let currentRating = 0;
+    let hoverRating = 0;
+
+    // Render 5 stars
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('span');
+      star.classList.add('star');
+      star.innerHTML = '★';
+      star.dataset.value = i;
+
+      // Mouse events
+      star.addEventListener('mouseenter', () => {
+        hoverRating = i;
+        updateStars();
+      });
+      star.addEventListener('mouseleave', () => {
+        hoverRating = 0;
+        updateStars();
+      });
+      star.addEventListener('click', () => {
+        currentRating = i;
+        ratingInput.value = i;
+        updateStars();
+      });
+
+      starContainer.appendChild(star);
+    }
+
+    // Update stars coloring
+    function updateStars() {
+      const stars = starContainer.querySelectorAll('.star');
+      stars.forEach((star, idx) => {
+        if (hoverRating > 0) {
+          star.classList.toggle('hovered', idx < hoverRating);
+          star.classList.remove('selected');
+        } else {
+          star.classList.toggle('selected', idx < currentRating);
+          star.classList.remove('hovered');
+        }
+      });
+    }
+    updateStars();
+    // Feedback form
+  document.getElementById('feedback-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const rating = ratingInput.value;
+  const comment = document.getElementById('comment').value.trim();
+
+  if (!name || !rating || !comment) return;
+
+  const feedback = {
+    name,
+    rating,
+    comment,
+    time: new Date().toISOString()
+  };
+
+  // Lưu vào localStorage
+  let feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+  feedbacks.push(feedback);
+  localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+  displayFeedbacks();
+
+  this.reset();
+  currentRating = 0;
+  ratingInput.value = '';
+  updateStars();
+});
+
+// Hiển thị lại feedback khi load trang
+function displayFeedbacks() {
+  const list = document.getElementById('feedback-list');
+  list.innerHTML = '';
+  const feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+  feedbacks.reverse().forEach(item => {
+    const el = document.createElement('div');
+    el.classList.add('feedback-item');
+    el.innerHTML = `<strong>${item.name}</strong> - ${'★'.repeat(item.rating)}<br><em>${item.comment}</em>`;
+    list.appendChild(el);
+  });
+}
+
+displayFeedbacks();
+
+  // Contact form
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const name = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const phone = document.getElementById('contact-phone').value.trim();
+  const message = document.getElementById('contact-message').value.trim();
+  const statusDiv = document.getElementById('contact-status');
+
+  if (!name || !email || !message) {
+    statusDiv.textContent = 'Please fill out all required fields.';
+    statusDiv.style.color = 'red';
+    return;
+  }
+  if (!validateEmail(email)) {
+    statusDiv.textContent = 'Invalid email address!';
+    statusDiv.style.color = 'red';
+    return;
+  }
+
+  // Lưu vào localStorage
+  const contactData = {
+    name,
+    email,
+    phone,
+    message,
+    time: new Date().toISOString()
+  };
+
+  // Thêm vào danh sách đã lưu
+  let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+  contacts.push(contactData);
+  localStorage.setItem('contacts', JSON.stringify(contacts));
+
+  statusDiv.textContent = 'Thank you for contacting us! We will respond as soon as possible.';
+  statusDiv.style.color = 'green';
+  this.reset();
+});
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header><h1>WOMEN FASHION</h1></header>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="cart.html">Cart <span class="cart-icon">🛍️</span></a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <main>
+      <h2>TOP TRENDING</h2>
+      <div class="product-list">
+        <div class="product" 
+          data-id="1" 
+          data-name="Adidas" 
+          data-price="450000" 
+          data-img="Adidas.png">
+          <img src="Adidas.png" alt="Adidas" />
+          <h3>Adidas</h3>
+          <p>The combination of fashion and sport, bringing products that are both stylish and high performance</p>
+          <p><strong>Price: 450.000đ</strong></p>
+        </div>
+
+        <div class="product" 
+          data-id="2" 
+          data-name="Nike" 
+          data-price="390000" 
+          data-img="Nike.jpg">
+          <img src="Nike.jpg" alt="Nike" />
+          <h3>Nike</h3>
+          <p>The brand that delivers innovation, cutting-edge technology and a strong sporting spirit</p>
+          <p><strong>Price: 390.000đ</strong></p>
+        </div>
+
+        <div class="product" 
+          data-id="3" 
+          data-name="H&M" 
+          data-price="320000" 
+          data-img="HM.png">
+          <img src="HM.png" alt="H&M" />
+          <h3>H&M</h3>
+          <p>This is a Brand that aims for diversity, youthful style and wide accessibility</p>
+          <p><strong>Price: 320.000đ</strong></p>
+        </div>
+
+        <div class="product" 
+          data-id="4" 
+          data-name="Dior" 
+          data-price="500000" 
+          data-img="Dior.jpg">
+          <img src="Dior.jpg" alt="Dior" />
+          <h3>Dior</h3>
+          <p>This is a brand with a luxurious, sophisticated and French style.</p>
+          <p><strong>Price: 500.000đ</strong></p>
+        </div>
+
+        <div class="product" 
+          data-id="5" 
+          data-name="Zara" 
+          data-price="450000" 
+          data-img="zara.jpg">
+          <img src="zara.jpg" alt="Zara" />
+          <h3>Zara</h3>
+          <p>Zara is a famous international fashion brand...</p>
+          <p><strong>Price: 450.000đ</strong></p>
+        </div>
+
+        <div class="product" 
+          data-id="6" 
+          data-name="Burberrys" 
+          data-price="600000" 
+          data-img="burberrys.jpg">
+          <img src="burberrys.jpg" alt="burberry" />
+          <h3>Burberrys</h3>
+          <p>Burberry is an old British fashion brand...</p>
+          <p><strong>Price: 600.000đ</strong></p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>📞 Phone number: 0123 456 789 | ✉️ Email: thoitrangnu@example.com</p>
+      <p>© 2025 WOMEN FASHION</p>
+    </footer>
+    <div id="cart-toast" class="cart-toast">Added to cart!</div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.product').forEach(item => {
+      item.addEventListener('click', function () {
+        const id = this.getAttribute('data-id');
+        const name = this.getAttribute('data-name');
+        const price = this.getAttribute('data-price');
+        const img = this.getAttribute('data-img');
+
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+        const index = cart.findIndex(p => p.id === id);
+        if (index >= 0) {
+          cart[index].qty += 1;
+        } else {
+          cart.push({ id, name, price, img, qty: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        showToast("Added to cart!");
+      });
+    });
+
+    function showToast(msg) {
+      const toast = document.getElementById('cart-toast');
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 1200);
+    }
+  </script>
+</body>
+</html>

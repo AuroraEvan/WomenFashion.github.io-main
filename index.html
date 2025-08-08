@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WOMEN FASHION - Welcome</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>WOMEN FASHION</h1>
+    </header>
+    <main>
+      <h2>Welcome to WOMEN FASHION</h2>
+      <div class="login-cta">
+        <button class="main-btn" onclick="window.location.href='login.html'">Login</button>
+        <div class="register-cta">
+          <span>Don't have an account?</span>
+          <button class="main-btn" onclick="window.location.href='register.html'">Register</button>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>📞 Phone number: 0123 456 789 | ✉️ Email: thoitrangnu@example.com</p>
+      <p>© 2025 WOMEN FASHION</p>
+    </footer>
+  </div>
+  <script>
+    // Nếu đã login thì chuyển sang home
+    if (localStorage.getItem('loggedIn') === 'true') {
+      window.location.href = 'home.html';
+    }
+  </script>
+</body>
+</html>
