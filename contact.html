@@ -180,6 +180,7 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
   statusDiv.textContent = 'Thank you for contacting us! We will respond as soon as possible.';
   statusDiv.style.color = 'green';
   this.reset();
+  setTimeout(() => statusDiv.textContent = '', 3000);
 });
 
   </script>
